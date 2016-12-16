@@ -24,6 +24,7 @@
     .panels {
       min-height:100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -41,6 +42,11 @@
       font-size: 20px;
       background-size:cover;
       background-position:center;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
     }
 
 
@@ -50,11 +56,22 @@
     .panel4 { background-image:url(https://source.unsplash.com/ITjiVXcwVng/1500x1500); }
     .panel5 { background-image:url(https://source.unsplash.com/3MNzGlQM7qs/1500x1500); }
 
+/*Flex items*/
     .panel > * {
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+      border: 1px solid red;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+
+    .panel > *:first-child { transform: translateY(-100%); } /*takes the first child elements (at the top and moves them up off screen*/
+    .panel.open-active > *:first-child { transform: translateY(0); } /*places the elements back to where they were and facilitates the animation */
+    .panel > *:last-child { transform: translateY(100%); } /*takes the last child elements (at the bottom and moves them down off screen*/
+    .panel.open-active > *:last-child { transform: translateY(0); } 
 
     .panel p {
       text-transform: uppercase;
@@ -67,7 +84,8 @@
     }
 
     .panel.open {
-      font-size:40px;
+        font-size:40px;
+        flex: 5; /*it will take 5 times the room as the rest of them when in this class */
     }
 
     .cta {
@@ -107,7 +125,23 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll('.panel');
 
+    function toggleOpen() {
+      this.classList.toggle('open');
+    }
+
+    function toggleActive(e) {
+      /*we use includes to cover our bases as the property for safari is flex and for others its flex-grow. so we cover both with this approach*/
+      if (e.propertyName.includes('flex')) {
+        this.classList.toggle('open-active')
+      }
+    }
+
+    panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+    /* side note: the reason the method is not referenced like toggleOpen() is because this would run on page load, instead we just give reference to the method for use by the on click event */
+    panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
+    /*NB to note that there will be loads of transition end events that will be firing and the toggleActive method will need to deterine which one we need to act upon*/
   </script>
 
 

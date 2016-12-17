@@ -31,7 +31,19 @@ function findMatches(wordToMatch, cities) {
 }
 
 function displayMatches() {
-  console.log(this.value);
+  const matchArray = findMatches(this.value, cities);
+  //get your data first and then worry about hooking it up to event listeners
+  const html = matchArray.map(place => {
+    const regex = new RegExp(this.value, "gi");
+    const cityName = place.city.replace(regex, )
+    return `
+    <li>
+      <span class="name">${place.city}, ${place.state}</span>
+      <span class="population">${place.population}</span>
+    </li>
+  `;
+  }).join('');
+  suggestions.innerHTML = html;
 } 
 
 const searchInput = document.querySelector('.search');

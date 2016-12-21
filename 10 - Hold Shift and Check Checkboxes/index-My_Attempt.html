@@ -104,6 +104,30 @@
   </div>
 
 <script>
+  //useful to find the checkboxes based on the type of the input
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  let lastChecked;
+
+  function handleClick(e) {
+    let isInBetween = false;
+    //can use the shiftKey from the event to determine if the shift key is being pressed
+    //we also need to check the box is checked as well
+    if ((e.shiftKey && this.checked)) {
+        checkboxes.forEach(checkbox => {
+          //used this from Wes's attempt - useful to work back and forth
+          if ((checkbox == this) || (checkbox == lastChecked)) {
+            isInBetween = !isInBetween;
+          }
+
+          if (isInBetween) {
+            checkbox.checked = true;
+          }
+      });
+    }
+    lastChecked = this;
+  }
+  //we just need the onClick event thanks to the shiftKey function from the event
+  checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleClick));
 </script>
 </body>
 </html>

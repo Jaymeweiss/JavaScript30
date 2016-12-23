@@ -7,6 +7,19 @@
 </head>
 <body>
 <script>
+  const keysPressed = [];
+  const secretcode = 'jaymeweiss';
+  window.addEventListener('keyup', (e) => {
+    //trimming the array was a good idea
+    keysPressed.push(e.key);
+    keysPressed.splice(-secretcode.length - 1, keysPressed.length - secretcode.length);
+    console.log(keysPressed);
+
+    if (keysPressed.join('').includes(secretcode)) {
+      console.log('CORRECT');
+      cornify_add();
+    }
+  })
 </script>
 </body>
 </html>
